@@ -16,6 +16,7 @@ library(tm)
 library(tidytext)
 library(igraph)
 library(ggraph)
+library(qqplot)
 #read the file with tenders
 assam_filtrd_tender <- read.csv('E:/cdl/tables/assam_tender_locations_filtered_01_02.csv')
 nrow(assam_filtrd_tender)
