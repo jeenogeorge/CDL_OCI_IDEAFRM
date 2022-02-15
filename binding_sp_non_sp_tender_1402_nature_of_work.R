@@ -6,7 +6,7 @@ library(dplyr)
 library(tidyverse)
 library(raster)
 library(rgeos)
-librart(ggplot)
+library(ggplot)
 
 #reading the shapefile with tenders plotted sub-district wise
 all_tendr_loc_sd <- read_sf("E:/cdl/maps/assam_tenders_sub_district_1680_a.shp")
