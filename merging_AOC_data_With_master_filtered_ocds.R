@@ -34,9 +34,19 @@ join_filt_tendr <- join_filt_tendr  %>% filter(tender.status != "Cancelled"
   filter(tenderclassification.description != "Architecture/Interior Design" 
          & tenderclassification.description !="Miscellaneous Services") %>%
   filter(!grepl('flood light|ht lt lines|electri|fish farming|footbridge|foot bridge',tender.title)) 
+#write the csv
+write.csv(join_filt_tendr, file = 'E:/cdl/tables/join_filt_tendr.csv')
 
 #checking 
 join <- join_filt_tendr %>% drop_na(Tender.ID)
 identical(join$tender.id, join$Tender.ID)
+
+assam_tendr_loc_distr <- read.csv('E:/cdl/tables/mf_dist_info_nature_wrk.csv')
+assam_tendr_loc_distr$tender.id
+join_filt_tendr_loc <- left_join(assam_tendr_loc_distr, assam_aoc_tender,by = "tender.id")
+#checking 
+join <- join_filt_tendr_loc %>% drop_na(Tender.ID)
+identical(join$tender.id, join$Tender.ID)
 #write the csv
-write.csv(join_filt_tendr, file = 'E:/cdl/tables/join_filt_tendr.csv')
+write.csv(join_filt_tendr_loc, file = 'E:/cdl/tables/join_filt_tendr_loc.csv')
+
