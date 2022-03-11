@@ -13,8 +13,11 @@ mf <- read.csv("E:/cdl/tables/mf_all_loc_info_nature_wrk.csv")
 nrow(mf)
 #extracting the department names
 mf$dept <- gsub("[[:punct:][:blank:]]+", " ", mf$tender.id)
-mf$dept <- gsub("[^a-zA-Z]", "", mf$tenderid)
+#mf$dept <- gsub("[^a-zA-Z]", "", mf$tenderid)
 unique(mf$dept)
+a <- gsub('[[:digit:]]+', '', mf$dept)
+mf$dept <- gsub("[[:punct:][:blank:]]+", "", a)
+#write.csv(mf, file = 'E:/cdl/tables/mf_all_loc_info_nature_wrk.csv')
 
 #CONDITIONING THE FIELDS
 #deleting punctuations from tender title\
@@ -263,14 +266,22 @@ nrow(mf_1)
 #else, wrap up
 mf <- rbind(st_1, mf_1)
 nrow(mf)
+#reading the table with watershed details
+tendr_block_ws <- read.csv("E:/cdl/tables/mf_flood_aoc_ocid_geometry_till_blocks_watershed.csv")
+nrow(tendr_block_ws)
+#checking for duplictes
+sum(duplicated(tendr_block_ws$ocid))
+#remove the duplicates
+tendr_block_ws <- tendr_block_ws %>% dplyr::distinct(ocid, .keep_all = T)
 
 
-
+mf <- left_join(mf, tendr_block_ws, by = "ocid")
+nrow(mf)
 
 #writing the file
 write.csv(mf, file = 'E:/cdl/tables/mf_all_loc_info_nature_wrk.csv')
 
-
+##********************************************************************####
 
 
 mf_dist_info <- mf_dist_info[!(mf_dist_info$ocid %in% mf_dist_info_1$ocid),]
